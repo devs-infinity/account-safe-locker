@@ -1,6 +1,6 @@
 {
-  "name": "client",
-  "version": "0.0.0",
+  "name": "account-safe-locker",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
