@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import Accounts from "./Accounts";
+import jwt from 'jsonwebtoken'
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -14,46 +16,51 @@ const userSchema = new mongoose.Schema({
     required: [true, "Provide a password"],
     minlength: 8,
   },
-
-  accounts: {
-    platform: {
-      type: String,
-      default: "n/a",
-    },
-
-    username: {
-      type: String,
-      default: "n/a",
-    },
-
-    email: {
-      type: String,
-      default: "n/a",
-    },
-
-    password: {
-      type: String,
-      required: [true, "Provide a password"],
-    },
-
-    dateAdded: {
-      type: String,
-      default: new Date().toDateString(),
-    },
-  },
-
   dateCreated: {
     type: String,
     default: new Date().toDateString(),
   },
+
+  tokens: [{
+    token: {
+      type: String,
+      required: true
+    }
+  }]
 });
 
-userSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
-  this.accounts.password = await bcrypt.hash(this.accounts.password, salt);
+userSchema.virtual("accounts", {
+  ref: "Accounts",
+  localField: "_id",
+  foreignField: "owner",
+});
 
+
+
+
+userSchema.methods.generateToken = async function () {
+  const user = this
+
+  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET || 'testkey');
+  user.tokens = user.tokens.concat({ token })
+  await user.save()
+
+  return token
+}
+
+userSchema.pre("save", async function (next) {
+      const user = this;
+
+      if (user.isModified("password")) {
+        user.password = await bcrypt.hash(user.password, 8);
+      }
   next();
 });
 
-export default mongoose.model("user", userSchema);
+userSchema.pre('remove', async function (next) {
+  const user = this
+  await Accounts.deleteMany({ owner: user._id })
+  next()
+})
+
+export default mongoose.model("User", userSchema);
