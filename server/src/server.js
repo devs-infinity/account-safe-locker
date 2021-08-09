@@ -1,7 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
-import cors from "cors";
 import dotenv from "dotenv";
+import cors from "cors";
+import authRoutes from "./routes/authRoutes";
 
 const app = express();
 dotenv.config();
@@ -10,6 +11,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
+app.use("/users", authRoutes);
+
 app.get("/", (_, res) => {
   res.send("Hello World!");
 });
@@ -17,6 +20,7 @@ app.get("/", (_, res) => {
 mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
+  useCreateIndex: true,
 });
 
 mongoose.connection.on("connected", () => console.log("Database is connected!"));
