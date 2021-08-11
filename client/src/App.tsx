@@ -1,21 +1,20 @@
-import React from "react";
-import { createGlobalStyle } from "styled-components";
+import React from 'react';
+import { Router, Switch, Route } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { GlobalStyles } from './styles/GlobalStyles';
+
+import { Home } from './components/pages';
 
 const App: React.FC = () => {
-  const GlobalStyle = createGlobalStyle`
-  body {
-    display: flex;
-    justify-content: center;
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-  }
-`;
+  const history = createBrowserHistory();
 
   return (
-    <div>
-      <h1>Hello World!</h1>
-      <GlobalStyle />
-    </div>
+    <Router history={history}>
+      <GlobalStyles />
+      <Switch>
+        <Route exact path='/' component={Home} />
+      </Switch>
+    </Router>
   );
 };
 
