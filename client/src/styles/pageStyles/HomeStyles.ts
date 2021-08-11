@@ -7,7 +7,7 @@ export const StyledHome = styled.main`
 
 export const StyledFormSection = styled.section`
   height: 600px;
-  width: 1200px;
+  width: 90%;
   display: flex;
   justify-content: center;
   margin: 0 auto;
