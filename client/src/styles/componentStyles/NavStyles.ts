@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const StyledNav = styled.header`
+  width: 100%;
   height: var(--nav-height);
-  padding: 0 var(--rl-padding);
+  padding: 0 var(--rl-space);
 
   nav {
     height: 100px;

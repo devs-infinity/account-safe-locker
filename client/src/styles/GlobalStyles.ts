@@ -28,7 +28,9 @@ export const GlobalStyles = createGlobalStyle`
     --fz-xl: 20px;
 
     //? RIGHT & LEFT PADDING
-    --rl-padding: 70px;
+    --rl-space: 70px;
+
+    --max-width: 1500px;
 
     --bd-radius: 4px;
     --transition: all 0.25s ease-in-out;
@@ -68,9 +70,15 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    margin: 0 auto;
     font-family: var(--font-main);
     color: var(--black);
     text-align: center;
+    max-width: var(--max-width);
+  }
+
+  section {
+    padding: var(--rl-space);
   }
 
   a, p {
