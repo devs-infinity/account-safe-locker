@@ -10,18 +10,29 @@ export const GlobalStyles = createGlobalStyle`
     --gray: #a4a8a7;
     --navy-blue: #192a3f;
     --blue: #057DCD;
+    --ocean-blue: #4eb6fb;
 
     //? FONT
     --font-main: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
       sans-serif;
+      
+    --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+      Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+      sans-serif;
+
+
     --fz-sm: 14px;  
     --fz-md: 16px;
     --fz-lg: 18px;
     --fz-xl: 20px;
 
+    //? RIGHT & LEFT PADDING
+    --rl-padding: 70px;
+
     --bd-radius: 4px;
-    --transition: all 0.2s ease-in-out;
+    --transition: all 0.25s ease-in-out;
+    --nav-height: 100px;
   }
 
   
@@ -58,15 +69,29 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: var(--font-main);
+    color: var(--black);
     text-align: center;
   }
 
-  h1, h2, h3, h4, h5, h6, p, a {
-    font-family: var(--font-main);
+  a, p {
+    font-weight: 500;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--navy-blue);
   }
 
   ul, li, ol {
     list-style: none;
+  }
+
+  button {
+    font-family: var(--font-main);
+    font-size: var(--fz-md);
+    cursor: pointer;
+    outline: none;
+    border: none;
   }
 
   a {

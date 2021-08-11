@@ -3,7 +3,11 @@ import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { GlobalStyles } from './styles/GlobalStyles';
 
-import { Home } from './components/pages';
+//? PAGE COMPONENTS or ROUTES
+import Home from './pages/Home';
+
+//? OTHER COMPONENTS
+import { Nav } from './components';
 
 const App: React.FC = () => {
   const history = createBrowserHistory();
@@ -11,6 +15,7 @@ const App: React.FC = () => {
   return (
     <Router history={history}>
       <GlobalStyles />
+      <Nav />
       <Switch>
         <Route exact path='/' component={Home} />
       </Switch>
