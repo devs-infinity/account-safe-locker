@@ -5,7 +5,7 @@ import { StyledButton } from '../styles/componentStyles/ButtonStyles';
 interface IButtonProps {
   buttonText: string;
   isLinkButton: boolean;
-  link?: any;
+  link: string;
   target?: string;
   rel?: string;
 }
