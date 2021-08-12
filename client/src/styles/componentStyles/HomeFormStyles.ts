@@ -20,17 +20,18 @@ export const StyledHomeForm = styled.div`
 
     p {
       font-weight: 500;
-      margin: 1.2rem 0 2rem 0;
+      margin: 1rem 0 2rem 0;
     }
 
     input {
       outline: none;
       border: none;
       font-family: inherit;
-      padding: 0.5rem;
+      padding: 0.5rem 1rem;
       font-size: 1rem;
       margin-bottom: 1.5rem;
       border-radius: 0.3rem;
+      background: #b8c5e7;
     }
 
     button {
