@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
 import Accounts from "./Accounts";
-import jwt from 'jsonwebtoken'
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -10,7 +8,9 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
   },
-
+  email: {
+    type: String,
+  },
   password: {
     type: String,
     required: [true, "Provide a password"],
@@ -18,15 +18,8 @@ const userSchema = new mongoose.Schema({
   },
   dateCreated: {
     type: String,
-    default: new Date().toDateString(),
+    default: new Date(),
   },
-
-  tokens: [{
-    token: {
-      type: String,
-      required: true
-    }
-  }]
 });
 
 userSchema.virtual("accounts", {
@@ -35,32 +28,29 @@ userSchema.virtual("accounts", {
   foreignField: "owner",
 });
 
+// userSchema.methods.generateToken = async function () {
+//   const user = this
 
+//   const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET || 'testkey');
+//   user.tokens = user.tokens.concat({ token })
+//   await user.save()
 
+//   return token
+// }
 
-userSchema.methods.generateToken = async function () {
-  const user = this
+// userSchema.pre("save", async function (next) {
+//       const user = this;
 
-  const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET || 'testkey');
-  user.tokens = user.tokens.concat({ token })
-  await user.save()
+//       if (user.isModified("password")) {
+//         user.password = await bcrypt.hash(user.password, 8);
+//       }
+//   next();
+// });
 
-  return token
-}
-
-userSchema.pre("save", async function (next) {
-      const user = this;
-
-      if (user.isModified("password")) {
-        user.password = await bcrypt.hash(user.password, 8);
-      }
+userSchema.pre("remove", async function (next) {
+  const user = this;
+  await Accounts.deleteMany({ owner: user._id });
   next();
 });
-
-userSchema.pre('remove', async function (next) {
-  const user = this
-  await Accounts.deleteMany({ owner: user._id })
-  next()
-})
 
 export default mongoose.model("User", userSchema);
