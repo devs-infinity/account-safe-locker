@@ -1,103 +1,42 @@
 import User from "../models/User";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcryptjs";
+import passport from "passport";
 
-// Display all users registered
-export const getUsers = async (_, res) => {
-  const data = await User.find();
-  res.status(200).json(data);
-};
-
-// Display a user with a specific ID
-export const getUser = async (req, res) => {
-  try {
-    const data = await User.findById(req.params.id);
-    data ? res.status(200).json(data) : res.status(404).json({ msg: "User with the given ID could not be found!" });
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-};
-
-export const loginUser = async (req, res) => {
-  try {
-    const user = await User.findOne({username: req.body.username})
-
-    if (!user) {
-      throw new Error("Unable to login");
+export const signUpController = async (req, res) => {
+  User.findOne({ username: req.body.username }, async (err, doc) => {
+    if (err) throw err;
+    if (doc) res.send("User already Exists");
+    if (!doc) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const newUser = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: hashedPassword,
+      });
+      await newUser.save();
+      res.send("User Created");
     }
+  });
+};
 
-    const isMatch = await bcrypt.compare(req.body.password, user.password)
-
-    if (!isMatch) {
-      throw new Error("Unable");
+export const logInController = async (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) throw err;
+    if (!user) res.send("No User Exists");
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        res.send("Successfully Authenticated");
+      });
     }
-
-    const token = await user.generateToken()
-    res.send({ user, token });
-  } catch (e) {
-    res.status(500).send(e.message)
-  }
-}
-
-export const logoutUser = async (req, res) => {
-  try {
-    req.user.tokens = req.user.tokens.filter(data => data.token !== req.token)
-    await req.user.save()
-    res.send()
-  } catch (e) {
-    res.status(500).send(e)
-  }
-}
-
-export const logoutAllUser = async (req, res) => {
-  try {
-    req.user.tokens = []
-    await req.user.save();
-    res.send();
-  } catch (e) {
-    res.status(500).send(e);
-  }
+  })(req, res, next);
 };
 
-export const registerUser = async (req, res) => {
-  try {
-    const newUser = await User.create(req.body);
-    const token = await newUser.generateToken();
-
-    res.status(201).send({ registeredUser: newUser, token});
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-};
-
-export const getLoggedInUser = async (req, res) => {
+export const currentUserController = async (req, res) => {
   res.send(req.user);
 };
 
-export const updateUser = async (req, res) => {
-  const updates = Object.keys(req.body);
-  const allowedUpdates = ["username", "password"];
-  const isValidOperation = updates.every((update) =>
-    allowedUpdates.includes(update)
-  );
-
-  if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid updates!" });
-  }
-
-  try {
-    updates.forEach((update) => req.user[update] = req.body[update]);
-    await req.user.save();
-    res.send(req.user);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-};
-
-export const deleteUser = async (req, res) => {
-  try {
-    await req.user.remove();
-    res.send(req.user);
-  } catch (e) {
-    res.status(400).send();
-  }
+export const logOutController = async (req, res) => {
+  req.logout();
+  return res.send("Logged out");
 };

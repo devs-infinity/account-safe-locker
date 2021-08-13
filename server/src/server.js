@@ -5,16 +5,21 @@ import cors from "cors";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import bodyParser from "body-parser";
 
 const app = express();
 dotenv.config();
 
 // Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 app.use(
   cors({
-    origin: "https://localhost:3000", // This should be the domain where the client is  deployed on
+    origin: "http://localhost:3000", // This should be the domain where the client is  deployed on
     credentials: true,
   })
 );
@@ -30,13 +35,14 @@ app.use(
 app.use(cookieParser(secretCode));
 app.use(passport.initialize());
 app.use(passport.session());
-// -- Will be adding passport config here for the strategies --
+import passportConfig from "./passport/passportConfig";
+passportConfig(passport);
 
 // Routes
 import authRoutes from "./routes/authRoutes";
 import accountRoutes from "./routes/accountRoutes";
 
-app.use(authRoutes);
+app.use("/auth", authRoutes);
 app.use(accountRoutes);
 
 app.get("/", (_, res) => {
