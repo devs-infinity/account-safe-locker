@@ -1,22 +1,8 @@
-import React, { AnchorHTMLAttributes } from 'react';
-import { Link } from 'react-router-dom';
-import { StyledButton } from '../styles/componentStyles/ButtonStyles';
+import React from "react";
+import { Link } from "react-router-dom";
+import { StyledButton } from "../styles/componentStyles/ButtonStyles";
 
-interface IButtonProps {
-  buttonText: string;
-  isLinkButton: boolean;
-  link: string;
-  target?: string;
-  rel?: string;
-}
-
-const Button: React.FC<IButtonProps> = ({
-  buttonText,
-  isLinkButton,
-  link,
-  target,
-  rel,
-}) => {
+const Button: React.FC<IButtonProps> = ({ buttonText, isLinkButton, link, target, rel }) => {
   return (
     <StyledButton>
       {isLinkButton ? (
