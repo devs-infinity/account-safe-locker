@@ -3,6 +3,25 @@ import bcrypt from "bcryptjs";
 import passport from "passport";
 
 export const signUpController = async (req, res) => {
+  // Temporary missing input validation
+  if (!req.body.username || !req.body.email || !req.body.password) {
+    const inputs = [req.body.username, req.body.email, req.body.password];
+    const inputNames = ["username", "email", "password"];
+    const missingValues = inputNames.filter((name, i) => {
+      if (inputs[i] === "") {
+        console.log(i);
+        return true;
+      } else {
+        return false;
+      }
+    });
+    // Temporary missing input validation
+
+    let message = `Missing values: ${missingValues}`;
+
+    return res.send(message);
+  }
+
   User.findOne({ username: req.body.username }, async (err, doc) => {
     if (err) throw err;
     if (doc) res.send("User already Exists");
