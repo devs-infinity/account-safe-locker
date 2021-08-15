@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const accountSchema = new mongoose.Schema({
     platform: {
@@ -33,17 +33,17 @@ const accountSchema = new mongoose.Schema({
         type: String,
         default: new Date().toDateString(),
     },
-})
+});
 
 accountSchema.pre('save', async function (next) {
-    const account = this
-    const salt = await bcrypt.genSalt()
+    const account = this;
+    const salt = await bcrypt.genSalt();
 
     if (account.isModified('password')) {
-        account.password = await bcrypt.hash(account.password, salt)
+        account.password = await bcrypt.hash(account.password, salt);
     }
 
-    next()
-})
+    next();
+});
 
-export default mongoose.model('Accounts', accountSchema)
+export default mongoose.model('Accounts', accountSchema);

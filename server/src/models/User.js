@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import Accounts from './Accounts'
+import mongoose from 'mongoose';
+import Accounts from './Accounts';
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -20,13 +20,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: new Date(),
     },
-})
+});
 
 userSchema.virtual('accounts', {
     ref: 'Accounts',
     localField: '_id',
     foreignField: 'owner',
-})
+});
 
 // userSchema.methods.generateToken = async function () {
 //   const user = this
@@ -48,9 +48,9 @@ userSchema.virtual('accounts', {
 // });
 
 userSchema.pre('remove', async function (next) {
-    const user = this
-    await Accounts.deleteMany({ owner: user._id })
-    next()
-})
+    const user = this;
+    await Accounts.deleteMany({ owner: user._id });
+    next();
+});
 
-export default mongoose.model('User', userSchema)
+export default mongoose.model('User', userSchema);

@@ -6,7 +6,7 @@
 
   "overrides": [
     {
-      "files": ["*.ts", "*.d.ts", ".js"],
+      "files": ["*.ts", "*.d.ts", "*.js"],
       "options": {
         "semi": true
       }
