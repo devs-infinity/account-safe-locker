@@ -15,3 +15,10 @@ interface LoginFormData {
   usernameOrEmail: string;
   password: string;
 }
+
+interface UserType {
+  dateCreated: Date;
+  email: string;
+  username: string;
+  _id: string;
+}
