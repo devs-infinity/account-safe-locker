@@ -45,8 +45,9 @@ export default function (passport) {
     callback(null, user.id);
   });
 
+  // password: 0 is there to exclude it from the object returned
   passport.deserializeUser((id, callback) => {
-    User.findOne({ _id: id }, (err, user) => {
+    User.findOne({ _id: id }, { password: 0 }, (err, user) => {
       callback(err, user);
     });
   });
