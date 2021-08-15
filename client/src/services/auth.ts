@@ -1,36 +1,36 @@
-import axios from "axios";
+import axios from 'axios';
 
-const authURL = "http://localhost:4000/auth";
+const authURL = 'http://localhost:4000/auth';
 
 /**
  * Creates a new user in the datbase.
  * Returns a message from the backend regarding success of signUp.
  */
 export const signUp = async (
-  email: string,
-  username: string,
-  password: string
+    email: string,
+    username: string,
+    password: string
 ) => {
-  const res = await axios({
-    method: "POST",
-    data: {
-      email,
-      username,
-      password,
-    },
-    withCredentials: true,
-    url: `${authURL}/signup`,
-  });
+    const res = await axios({
+        method: 'POST',
+        data: {
+            email,
+            username,
+            password,
+        },
+        withCredentials: true,
+        url: `${authURL}/signup`,
+    });
 
-  // console.log(res);
+    // console.log(res);
 
-  const message = res.data; // Was the sign up successful?
-  const { currentUser } = await logIn(username, password);
+    const message = res.data; // Was the sign up successful?
+    const { currentUser } = await logIn(username, password);
 
-  return {
-    message,
-    currentUser,
-  };
+    return {
+        message,
+        currentUser,
+    };
 };
 
 /**
@@ -38,25 +38,25 @@ export const signUp = async (
  * Returns a message from the backend regarding success of logIn.
  */
 export const logIn = async (usernameOrEmail: string, password: string) => {
-  const res = await axios({
-    method: "POST",
-    data: {
-      username: usernameOrEmail,
-      password,
-    },
-    withCredentials: true,
-    url: `${authURL}/login`,
-  });
+    const res = await axios({
+        method: 'POST',
+        data: {
+            username: usernameOrEmail,
+            password,
+        },
+        withCredentials: true,
+        url: `${authURL}/login`,
+    });
 
-  // console.log(res);
+    // console.log(res);
 
-  const message: string = res.data; // Was the log in successful?
-  const currentUser: UserType = await getCurrentUser();
+    const message: string = res.data; // Was the log in successful?
+    const currentUser: UserType = await getCurrentUser();
 
-  return {
-    message,
-    currentUser,
-  };
+    return {
+        message,
+        currentUser,
+    };
 };
 
 /**
@@ -65,34 +65,34 @@ export const logIn = async (usernameOrEmail: string, password: string) => {
  * @returns UserType
  */
 export const getCurrentUser = async () => {
-  const res = await axios({
-    method: "GET",
-    withCredentials: true,
-    url: `${authURL}/currentuser`,
-  });
+    const res = await axios({
+        method: 'GET',
+        withCredentials: true,
+        url: `${authURL}/currentuser`,
+    });
 
-  // console.log(res);
+    // console.log(res);
 
-  const currentUser: UserType = res.data;
-  return currentUser;
+    const currentUser: UserType = res.data;
+    return currentUser;
 };
 
 /**
  * Logs out the user and gets rid of its current session with the server.
  */
 export const logOut = async () => {
-  return axios({
-    method: "GET",
-    withCredentials: true,
-    url: `${authURL}/logout`,
-  });
+    return axios({
+        method: 'GET',
+        withCredentials: true,
+        url: `${authURL}/logout`,
+    });
 };
 
 const auth = {
-  signUp,
-  logIn,
-  getCurrentUser,
-  logOut,
+    signUp,
+    logIn,
+    getCurrentUser,
+    logOut,
 };
 
 export default auth;

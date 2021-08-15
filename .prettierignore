@@ -4,3 +4,4 @@ dist
 vite.config.ts
 vite-env.d.ts
 index.html
+.prettierrc

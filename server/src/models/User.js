@@ -1,32 +1,32 @@
-import mongoose from "mongoose";
-import Accounts from "./Accounts";
+import mongoose from 'mongoose'
+import Accounts from './Accounts'
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: [true, "Provide a usename"],
-    unique: true,
-    lowercase: true,
-  },
-  email: {
-    type: String,
-  },
-  password: {
-    type: String,
-    required: [true, "Provide a password"],
-    minlength: 8,
-  },
-  dateCreated: {
-    type: String,
-    default: new Date(),
-  },
-});
+    username: {
+        type: String,
+        required: [true, 'Provide a usename'],
+        unique: true,
+        lowercase: true,
+    },
+    email: {
+        type: String,
+    },
+    password: {
+        type: String,
+        required: [true, 'Provide a password'],
+        minlength: 8,
+    },
+    dateCreated: {
+        type: String,
+        default: new Date(),
+    },
+})
 
-userSchema.virtual("accounts", {
-  ref: "Accounts",
-  localField: "_id",
-  foreignField: "owner",
-});
+userSchema.virtual('accounts', {
+    ref: 'Accounts',
+    localField: '_id',
+    foreignField: 'owner',
+})
 
 // userSchema.methods.generateToken = async function () {
 //   const user = this
@@ -47,10 +47,10 @@ userSchema.virtual("accounts", {
 //   next();
 // });
 
-userSchema.pre("remove", async function (next) {
-  const user = this;
-  await Accounts.deleteMany({ owner: user._id });
-  next();
-});
+userSchema.pre('remove', async function (next) {
+    const user = this
+    await Accounts.deleteMany({ owner: user._id })
+    next()
+})
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model('User', userSchema)

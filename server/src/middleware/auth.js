@@ -5,8 +5,11 @@ export const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'testkey')
-        const user = await User.findOne({ _id: decoded._id, 'tokens.token': token })
-        
+        const user = await User.findOne({
+            _id: decoded._id,
+            'tokens.token': token,
+        })
+
         if (!user) {
             throw new Error()
         }
@@ -17,7 +20,7 @@ export const auth = async (req, res, next) => {
         next()
     } catch (e) {
         res.status(400).send({
-            errorMessage: 'Please Authenticate'
+            errorMessage: 'Please Authenticate',
         })
     }
 }
