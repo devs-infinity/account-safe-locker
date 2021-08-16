@@ -1,9 +1,9 @@
 import {
-    createAccount,
-    deleteAccount,
-    getAccountById,
-    getAccounts,
-    updateAccount,
+  createAccount,
+  deleteAccount,
+  getAccountById,
+  getAccounts,
+  updateAccount,
 } from '../controllers/accountsController';
 import { Router } from 'express';
 import { auth } from '../middleware/auth';

@@ -13,24 +13,24 @@ dotenv.config();
 // Middlewares
 app.use(bodyParser.json());
 app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    })
+  bodyParser.urlencoded({
+    extended: true,
+  })
 );
 app.use(
-    cors({
-        origin: 'http://localhost:3000', // This should be the domain where the client is  deployed on
-        credentials: true,
-    })
+  cors({
+    origin: 'http://localhost:3000', // This should be the domain where the client is  deployed on
+    credentials: true,
+  })
 );
 
 const secretCode = process.env.EXPRESS_SECRET || 'secretcode';
 app.use(
-    session({
-        secret: secretCode,
-        resave: true,
-        saveUninitialized: true,
-    })
+  session({
+    secret: secretCode,
+    resave: true,
+    saveUninitialized: true,
+  })
 );
 app.use(cookieParser(secretCode));
 app.use(passport.initialize());
@@ -46,22 +46,22 @@ app.use('/auth', authRoutes);
 app.use(accountRoutes);
 
 app.get('/', (_, res) => {
-    res.send('Hello World!');
+  res.send('Hello World!');
 });
 
 // Database
 mongoose.connect(
-    process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/chat-app',
-    {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-    }
+  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/chat-app',
+  {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  }
 );
 
 mongoose.connection.on('connected', () =>
-    console.log('Database is connected!')
+  console.log('Database is connected!')
 );
 
 const PORT = process.env.PORT || 4000;

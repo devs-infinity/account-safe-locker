@@ -13,19 +13,19 @@ import Home from './pages/Home'
 import { Nav } from './components'
 
 const App: React.FC = () => {
-    const history = createBrowserHistory()
+  const history = createBrowserHistory()
 
-    return (
-        <Router history={history}>
-            <GlobalStyles />
-            <AuthProvider>
-                <Nav />
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                </Switch>
-            </AuthProvider>
-        </Router>
-    )
+  return (
+    <Router history={history}>
+      <GlobalStyles />
+      <AuthProvider>
+        <Nav />
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
+      </AuthProvider>
+    </Router>
+  )
 }
 
 export default App
