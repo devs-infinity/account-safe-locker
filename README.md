@@ -1,4 +1,11 @@
 # 🔒 Safe Locker
+## Husky Installation
+-  `yarn` is needed since `husky` is using it to run `prettier`
+- `git pull`; make sure your codebase is up to date!
+- `yarn install`; install the latest dependencies!
+- `yarn prepare` or `npm run prepare`; this will install `husky`
+- voila! you're ready to make a `commit`!
+- *PS: you only need to do the installation once*
 
 ---
 

@@ -1,7 +1,0 @@
-.github
-dist
-*.json
-vite.config.ts
-vite-env.d.ts
-index.html
-.prettierrc
